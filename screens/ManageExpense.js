@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native'
 import React from 'react'
 
-export default function ManageExpense() {
+export default function ManageExpenseScreen() {
 	return (
 		<View style={styles.screen}>
 			<Text>ManageExpenseScreen</Text>
@@ -15,6 +15,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: 'lightgreen',
-		marginTop: Platform.select({ android: StatusBar.currentHeight, ios: null }),
+		// marginTop: Platform.select({ android: StatusBar.currentHeight, ios: null }),
 	}
 });

@@ -15,6 +15,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: 'tomato',
-		marginTop: Platform.select({ android: StatusBar.currentHeight, ios: null }),
+		// marginTop: Platform.select({ android: StatusBar.currentHeight, ios: null }),
 	}
 });
