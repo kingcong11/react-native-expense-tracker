@@ -1,20 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+
+/* Components */
+import Column from './components/ui/Column';
+
+/* Screens */
+import RecentExpensesScreen from './screens/RecentExpensesScreen';
+import AllExpensesScreen from './screens/AllExpensesScreen';
+import ManageExpense from './screens/ManageExpense';
+
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+	return (
+		<SafeAreaView style={styles.safeArea}>
+			<ManageExpense></ManageExpense>
+		</SafeAreaView>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	safeArea: {
+		flex: 1,
+	},
+	columnStyle: {
+		flex: 1,
+		backgroundColor: 'tomato',
+	}
 });
