@@ -1,10 +1,14 @@
 import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native'
 import React from 'react'
+import { COLORS } from '../constants/Colors';
 
-export default function RecentExpensesScreen() {
+/* Components */
+import ExpensesOutput from '../components/custom/ExpensesOutput/ExpensesOutput';
+
+export default function RecentExpensesScreen({ navigation, route }) {
 	return (
 		<View style={styles.screen}>
-			<Text>RecentExpensesScreen</Text>
+			<ExpensesOutput period="Last 7 Days" />
 		</View>
 	)
 }
@@ -12,9 +16,12 @@ export default function RecentExpensesScreen() {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'tomato',
+		justifyContent: 'flex-start',
+		alignItems: 'stretch',
+		backgroundColor: COLORS.primary700,
 		// marginTop: Platform.select({ android: StatusBar.currentHeight, ios: null }),
+		paddingHorizontal: 10,
+		paddingTop: 10,
+		// marginBottom: 50
 	}
 });

@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Platform, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { SafeAreaView, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from './constants/Colors';
 
 /* Components */
@@ -58,15 +59,17 @@ function ExpensesOverview() {
 
 export default function App() {
 	return (
-		<SafeAreaView style={styles.safeArea}>
-			<StatusBar style='light' />
-			<NavigationContainer>
-				<Stack.Navigator initialRouteName='ExpensesOverview' screenOptions={{}}>
-					<Stack.Screen name='ExpensesOverview' component={ExpensesOverview} options={{ headerShown: false }} />
-					<Stack.Screen name='ManageExpense' component={ManageExpenseScreen} />
-				</Stack.Navigator>
-			</NavigationContainer>
-		</SafeAreaView>
+		<>
+			<SafeAreaView style={styles.safeArea} >
+				<StatusBar style='auto' backgroundColor={COLORS.primary500} />
+				<NavigationContainer>
+					<Stack.Navigator initialRouteName='ExpensesOverview' screenOptions={{}}>
+						<Stack.Screen name='ExpensesOverview' component={ExpensesOverview} options={{ headerShown: false }} />
+						<Stack.Screen name='ManageExpense' component={ManageExpenseScreen} />
+					</Stack.Navigator>
+				</NavigationContainer>
+			</SafeAreaView>
+		</>
 	);
 }
 
