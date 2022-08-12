@@ -7,6 +7,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { SafeAreaView, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from './constants/Colors';
+import { Provider } from 'react-redux';
 
 /* Components */
 import Column from './components/ui/Column';
@@ -17,6 +18,8 @@ import RecentExpensesScreen from './screens/RecentExpensesScreen';
 import AllExpensesScreen from './screens/AllExpensesScreen';
 import ManageExpenseScreen from './screens/ManageExpenseScreen';
 
+/* Store */
+import { store } from './store/store';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -80,20 +83,22 @@ export default function App() {
 	return (
 		<>
 			<SafeAreaView style={styles.safeArea} >
-				<StatusBar style='auto' backgroundColor={COLORS.primary500} />
-				<NavigationContainer>
-					<Stack.Navigator initialRouteName='ExpensesOverview' screenOptions={{}}>
-						<Stack.Screen name='ExpensesOverview' component={ExpensesOverview} options={{ headerShown: false }} />
-						<Stack.Screen name='ManageExpense' component={ManageExpenseScreen}
-							options={{
-								headerTitleAlign: 'center',
-								headerStyle: { backgroundColor: COLORS.primary500 },
-								headerTintColor: 'white',
-								presentation: 'modal'
-							}}
-						/>
-					</Stack.Navigator>
-				</NavigationContainer>
+				<Provider store={store}>
+					<StatusBar style='auto' backgroundColor={COLORS.primary500} />
+					<NavigationContainer>
+						<Stack.Navigator initialRouteName='ExpensesOverview' screenOptions={{}}>
+							<Stack.Screen name='ExpensesOverview' component={ExpensesOverview} options={{ headerShown: false }} />
+							<Stack.Screen name='ManageExpense' component={ManageExpenseScreen}
+								options={{
+									headerTitleAlign: 'center',
+									headerStyle: { backgroundColor: COLORS.primary500 },
+									headerTintColor: 'white',
+									presentation: 'modal'
+								}}
+							/>
+						</Stack.Navigator>
+					</NavigationContainer>
+				</Provider>
 			</SafeAreaView>
 		</>
 	);

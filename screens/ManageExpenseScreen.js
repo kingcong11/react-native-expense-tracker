@@ -1,7 +1,11 @@
 import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native'
 import { useLayoutEffect } from 'react';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { COLORS } from '../constants/Colors';
+import moment from 'moment';
+
+/* State Related */
+import { useDispatch } from 'react-redux';
+import { addExpenseFn, removeExpenseFn, updateExpenseFn } from '../store/slices/expenses';
 
 /* Components */
 import GenericIconButton from '../components/ui/GenericIconButton';
@@ -14,6 +18,7 @@ export default function ManageExpenseScreen({ navigation, route }) {
 	const screenParameters = route.params;
 	const expenseIdToEdit = screenParameters?.expenseId;
 	const isEditing = expenseIdToEdit !== undefined;
+	const dispatch = useDispatch();
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
@@ -24,15 +29,37 @@ export default function ManageExpenseScreen({ navigation, route }) {
 	/* Methods */
 	function deleteExpense() {
 		navigation.goBack();
+
+		const payload = {
+			expenseId: expenseIdToEdit
+		}
+		dispatch(removeExpenseFn(payload));
 	}
 
 	function cancelHandler() {
 		navigation.goBack();
 	}
 
-	function confirmHandler() {
+	function confirmHandler(userInput) {
+		// make sure later that the userInput is an object following the expenseModel
 		navigation.goBack();
-
+		if (isEditing) {
+			const payload = {
+				expenseId: expenseIdToEdit,
+				description: 'NEW TESTING DESCRIPTION',
+				amount: 9999.00,
+				date: moment(),
+			};
+			dispatch(updateExpenseFn(payload));
+		} else {
+			const payload = {
+				id: Math.random().toString(),
+				description: 'NEWLY ADDED',
+				amount: 9999.00,
+				date: moment(),
+			};
+			dispatch(addExpenseFn(payload));
+		}
 	}
 
 	return (
