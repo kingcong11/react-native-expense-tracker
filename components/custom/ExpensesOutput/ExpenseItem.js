@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { COLORS } from '../../../constants/Colors';
+import { useNavigation } from '@react-navigation/native';
 
 /* Utils */
 import { getFormattedDate } from '../../../utils/date';
@@ -7,10 +8,19 @@ import { getFormattedDate } from '../../../utils/date';
 import Row from '../../ui/Row';
 
 export default function ExpenseItem({ expense }) {
+
+	const navigation = useNavigation();
+
+	function manageExpense() {
+		navigation.navigate('ManageExpense', {
+			expenseId: expense.id
+		});
+	}
+
 	return (
-		<Pressable onPress={() => {
-			console.log(`asdasda`);
-		}}>
+		<Pressable onPress={manageExpense} style={({ pressed }) => [
+			pressed ? styles.pressed : null,
+		]}>
 			<Row style={[styles.row, styles.expenseItem]}>
 				<View >
 					<Text style={[styles.textBase, styles.description]}>{expense.description}</Text>
@@ -30,7 +40,7 @@ const styles = StyleSheet.create({
 	},
 	expenseItem: {
 		padding: 10,
-		backgroundColor: COLORS.primary500, //change later COLORS.primary500
+		backgroundColor: COLORS.primary500,
 		marginVertical: 4,
 		borderRadius: 6,
 		elevation: 3,
@@ -60,5 +70,8 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		marginBottom: 4,
 		fontWeight: 'bold',
+	},
+	pressed: {
+		opacity: 0.75,
 	}
 });

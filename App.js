@@ -10,11 +10,12 @@ import { COLORS } from './constants/Colors';
 
 /* Components */
 import Column from './components/ui/Column';
+import GenericIconButton from './components/ui/GenericIconButton';
 
 /* Screens */
 import RecentExpensesScreen from './screens/RecentExpensesScreen';
 import AllExpensesScreen from './screens/AllExpensesScreen';
-import ManageExpenseScreen from './screens/ManageExpense';
+import ManageExpenseScreen from './screens/ManageExpenseScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -24,12 +25,30 @@ function ExpensesOverview() {
 	/* These screens are navigated through BottomTabs */
 	return (
 		<Tab.Navigator
-			screenOptions={{
-				headerStyle: { backgroundColor: COLORS.primary500 },
-				headerTintColor: 'white',
-				tabBarStyle: { backgroundColor: COLORS.primary500 },
-				tabBarActiveTintColor: COLORS.accent500,
-				headerTitleAlign: 'center',
+			screenOptions={({ navigation, route }) => {
+
+				/*
+				|| in this approach where we have a function which returns an object for screenOptions,
+				|| we also have access to the navigation and route prop and do navigation methods like navigate
+				*/
+
+				return {
+					headerStyle: { backgroundColor: COLORS.primary500 },
+					headerTintColor: 'white',
+					tabBarStyle: { backgroundColor: COLORS.primary500 },
+					tabBarActiveTintColor: COLORS.accent500,
+					headerTitleAlign: 'center',
+					headerRight: () => {
+						return <GenericIconButton
+							color={COLORS.accent500}
+							pressFn={() => {
+								navigation.navigate('ManageExpense');
+							}}
+							size={24}
+							icon="plus"
+						/>
+					}
+				}
 			}}
 		>
 			<Tab.Screen name="RecentExpenses" component={RecentExpensesScreen}
@@ -65,7 +84,14 @@ export default function App() {
 				<NavigationContainer>
 					<Stack.Navigator initialRouteName='ExpensesOverview' screenOptions={{}}>
 						<Stack.Screen name='ExpensesOverview' component={ExpensesOverview} options={{ headerShown: false }} />
-						<Stack.Screen name='ManageExpense' component={ManageExpenseScreen} />
+						<Stack.Screen name='ManageExpense' component={ManageExpenseScreen}
+							options={{
+								headerTitleAlign: 'center',
+								headerStyle: { backgroundColor: COLORS.primary500 },
+								headerTintColor: 'white',
+								presentation: 'modal'
+							}}
+						/>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</SafeAreaView>
