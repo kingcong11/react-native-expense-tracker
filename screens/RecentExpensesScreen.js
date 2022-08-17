@@ -2,22 +2,51 @@ import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native'
 import { COLORS } from '../constants/Colors';
 import { getDateMinusDaysFromNow } from '../utils/date';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
 
 /* State Related */
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchExpenses } from '../utils/network/http';
+import { setExpensesFn } from '../store/slices/expenses';
 
 /* Components */
 import ExpensesOutput from '../components/custom/ExpensesOutput/ExpensesOutput';
+import LoadingOverlay from '../components/ui/LoadingOverlay';
+import ErrorOverlay from '../components/ui/ErrorOverlay';
 
 export default function RecentExpensesScreen({ navigation, route }) {
 	/* Hooks & Variables */
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState();
+	const dispatch = useDispatch();
 	const expenses = useSelector((state) => state.userExpenses.expenses);
 
-	const leftDateBoundary = getDateMinusDaysFromNow(7);
+	useEffect(() => {
+		async function getExpenses() {
+			setIsLoading(true);
+			try {
+				const expenses = await fetchExpenses();
+				dispatch(setExpensesFn(expenses));
+			} catch (error) {
+				setError('Failed to fetch expenses');
+			}
+			setIsLoading(false);
+		}
 
+		getExpenses();
+	}, []);
+
+	const leftDateBoundary = getDateMinusDaysFromNow(7);
 	const recentExpenses = expenses.filter((expense) => moment(expense.date).isAfter(leftDateBoundary));
 
-	if (expenses.length == 0) {
+	if (error && !isLoading) {
+		return <ErrorOverlay message={error} onPressFn={() => setError(null)} />
+	}
+	if (isLoading) {
+		return <LoadingOverlay />
+	}
+
+	if (recentExpenses.length == 0) {
 		return (
 			<View style={styles.emptyExpenses}>
 				<Text style={styles.emptyText}>You dont have any expenses</Text>

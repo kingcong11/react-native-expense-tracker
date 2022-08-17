@@ -90,8 +90,6 @@ export default function ExpenseForm({ onCancelFn, confirmLabel, onConfirmFn, exp
 		const dateIsValid = moment(expenseData.date).isValid();
 		const descriptionIsValid = expenseData.description.trim().length > 0;
 
-		console.log(`MOMENT CHECK`, dateIsValid);
-
 		if (amountIsValid && dateIsValid && descriptionIsValid) {
 			onConfirmFn(expenseData);
 		} else {
