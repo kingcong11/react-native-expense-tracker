@@ -31,9 +31,9 @@ const expensesSlice = createSlice({
 
 			const newExpense = new Expense(
 				Math.random().toString(),
-				payload.description,
-				payload.amount,
-				payload.date,
+				payload.expenseData.description,
+				payload.expenseData.amount,
+				payload.expenseData.date,
 			);
 
 			state.expenses.push(newExpense);
@@ -55,16 +55,15 @@ const expensesSlice = createSlice({
 			const payload = action.payload;
 			const expenseId = payload.expenseId;
 			const indexOfExpense = state.expenses.map((expense) => expense.id).indexOf(expenseId);
-			const expenseToUpdate = state.expenses[indexOfExpense];
 
 			console.log(`PAYLOAD RECEIVED: `, payload);
 
 			/* updating data */
 			state.expenses[indexOfExpense] = new Expense(
 				payload.expenseId,
-				payload.description,
-				payload.amount,
-				payload.date,
+				payload.expenseData.description,
+				payload.expenseData.amount,
+				payload.expenseData.date,
 			);
 
 		}

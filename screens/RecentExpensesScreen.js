@@ -17,9 +17,6 @@ export default function RecentExpensesScreen({ navigation, route }) {
 
 	const recentExpenses = expenses.filter((expense) => moment(expense.date).isAfter(leftDateBoundary));
 
-	console.log(leftDateBoundary);
-	console.log(recentExpenses);
-
 	if (expenses.length == 0) {
 		return (
 			<View style={styles.emptyExpenses}>
